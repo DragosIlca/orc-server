@@ -1,6 +1,6 @@
 package com.uni.orc.models.parsed
 
-import com.uni.orc.models.parsed.Config._
+import com.uni.orc.models.Config._
 
 object Action {
 	sealed trait Action[C <: Config] {

@@ -1,4 +1,4 @@
-package com.uni.orc.models.parsed
+package com.uni.orc.models
 
 import com.uni.orc.types.HttpRequest.HttpRequestType
 
