@@ -14,7 +14,7 @@ object JsonImplicits {
 	implicit val actionFmt: Reads[RawAction] = (
 		(JsPath \ "actionType").read[String] and
 			(JsPath \ "instruction").read[String] and
-			(JsPath \ "config").read[Config]
+			(JsPath \ "config").readNullable[Config]
 		) (RawAction.apply _)
 
 	implicit val commandFmt: Reads[RawTask] = Json.reads[RawTask]

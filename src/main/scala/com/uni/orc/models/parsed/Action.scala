@@ -3,23 +3,26 @@ package com.uni.orc.models.parsed
 import com.uni.orc.models.Config._
 
 object Action {
-	sealed trait Action[C <: Config] {
+	sealed trait Action {
 		def instruction: String
-		def config: Option[C]
 	}
 
+	sealed trait ConfiguredAction[C <: Config] extends Action {
+		def config: C
+	}
+	sealed trait UnConfiguredAction extends Action
+
 	case class CLICommand(
-		instruction: String,
-		config     : Option[Config] = None
-	) extends Action[Config]
+		instruction: String
+	) extends UnConfiguredAction
 
 	case class DockerCommand(
 		instruction: String,
-		config     : Option[DockerCommandConfig]
-	) extends Action[DockerCommandConfig]
+		config     : DockerCommandConfig
+	) extends ConfiguredAction[DockerCommandConfig]
 
 	case class HttpRequest(
 		instruction: String,
-		config     : Option[HttpRequestConfig]
-	) extends Action[HttpRequestConfig]
+		config     : HttpRequestConfig
+	) extends ConfiguredAction[HttpRequestConfig]
 }
