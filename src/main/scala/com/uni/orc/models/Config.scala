@@ -1,6 +1,6 @@
 package com.uni.orc.models
 
-import com.uni.orc.types.HttpRequest.HttpRequestType
+import com.uni.orc.models.types.HttpRequest.HttpRequestType
 
 object Config {
 	sealed trait Config

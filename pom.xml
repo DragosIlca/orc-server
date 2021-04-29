@@ -30,6 +30,13 @@
             <version>0.40.2</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.typelevel/cats-core -->
+        <dependency>
+            <groupId>org.typelevel</groupId>
+            <artifactId>cats-core_2.13</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.scalatest/scalatest -->
         <dependency>
             <groupId>org.scalatest</groupId>

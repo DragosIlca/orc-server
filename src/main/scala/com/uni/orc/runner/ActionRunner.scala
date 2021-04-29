@@ -1,7 +1,7 @@
 package com.uni.orc.runner
 
-import com.uni.orc.models.raw.RawAction
+import com.uni.orc.models.parsed.Action.Action
 
-trait ActionRunner[T <: RawAction] {
-  def run(action: T)
+trait ActionRunner[T <: Action] {
+  def run(action: T): Either[String, Unit]
 }

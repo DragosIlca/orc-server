@@ -1,4 +1,4 @@
-package com.uni.orc.types
+package com.uni.orc.models.types
 
 object Action {
   val CLI_COMMAND: ActionType = "command"

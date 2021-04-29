@@ -1,13 +1,26 @@
 package com.uni.orc.converters
 
 import com.uni.orc.models.Config.{Config, DockerCommandConfig, HttpRequestConfig}
-import com.uni.orc.models.parsed.Action.{Action, CLICommand, ConfiguredAction, DockerCommand, HttpRequest}
-import com.uni.orc.models.raw.RawAction
-import com.uni.orc.types.Action
+import com.uni.orc.models.parsed.Action.{Action, CLICommand, DockerCommand, HttpRequest}
+import com.uni.orc.models.parsed.{Plugin, Task}
+import com.uni.orc.models.raw.{RawAction, RawPlugin, RawTask}
+import com.uni.orc.models.types.Action
+import cats.implicits._
 
 object ModelConverter {
 	val emptyConfigError = "Config must not be null"
 	val wrongConfigError = "Wrong config for action"
+
+	def convertPlugin(rawPlugin: RawPlugin): Either[String, Plugin] = {
+		rawPlugin.lifecycle
+		         .map(convertTask)
+		         .sequence
+		         .map(Plugin(rawPlugin.id, rawPlugin.name, rawPlugin.description, rawPlugin.version, _))
+	}
+
+	def convertTask(rawTask: RawTask): Either[String, Task] = {
+		convertAction(rawTask.action).map(Task(rawTask.hook, _))
+	}
 
 	def convertAction(rawAction: RawAction): Either[String, Action] = {
 		rawAction.actionType match {
