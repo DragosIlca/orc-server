@@ -10,11 +10,12 @@ object Action {
 	sealed trait ConfiguredAction[C <: Config] extends Action {
 		def config: C
 	}
-	sealed trait UnConfiguredAction extends Action
+
+	sealed trait UnconfiguredAction extends Action
 
 	case class CLICommand(
 		instruction: String
-	) extends UnConfiguredAction
+	) extends UnconfiguredAction
 
 	case class DockerCommand(
 		instruction: String,
