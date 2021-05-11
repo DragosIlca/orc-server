@@ -7,24 +7,10 @@
       "version": "0.0.1",
       "lifecycle": [
         {
-          "hook": "remove",
+          "hook": "run",
           "action": {
             "actionType": "command",
-            "instruction": "java -jar inspector-git.jar remove",
-            "config": {
-              "image": "image1",
-              "name": "name1"
-            }
-          }
-        },
-        {
-          "hook": "change",
-          "action": {
-            "actionType": "request",
-            "instruction": "https://plm",
-            "config": {
-              "method": "POST"
-            }
+            "instruction": "java -jar ./tools/iglog.jar ../kafka"
           }
         }
       ]
