@@ -1,4 +1,4 @@
-package com.uni.orc.runner.action
+package com.uni.orc.runners.action
 
 import com.uni.orc.models.parsed.Action.HttpRequest
 

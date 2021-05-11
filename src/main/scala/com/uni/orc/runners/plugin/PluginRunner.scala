@@ -1,7 +1,7 @@
-package com.uni.orc.runner.plugin
+package com.uni.orc.runners.plugin
 
 import com.uni.orc.models.parsed.Plugin
-import com.uni.orc.runner.action.ActionRunner
+import com.uni.orc.runners.action.ActionRunner
 import cats.implicits._
 
 object PluginRunner {

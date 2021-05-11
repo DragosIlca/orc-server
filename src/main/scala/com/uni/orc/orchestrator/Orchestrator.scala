@@ -3,7 +3,7 @@ package com.uni.orc.orchestrator
 import com.uni.orc.converters.ModelConverter
 import com.uni.orc.input.ConfigReader
 import cats.implicits._
-import com.uni.orc.runner.plugin.PluginRunner
+import com.uni.orc.runners.plugin.PluginRunner
 
 class Orchestrator {
 	def run(): Either[String, Unit] = {
