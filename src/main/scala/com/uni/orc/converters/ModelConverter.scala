@@ -7,9 +7,8 @@ import com.uni.orc.models.raw.{RawAction, RawPlugin, RawTask}
 import com.uni.orc.models.types.Action
 import cats.implicits._
 
-object ModelConverter {
-	val emptyConfigError = "Config must not be null"
-	val wrongConfigError = "Wrong config for action"
+class ModelConverter {
+	import ModelConverter._
 
 	def convertPlugin(rawPlugin: RawPlugin): Either[String, Plugin] = {
 		rawPlugin.lifecycle
@@ -42,4 +41,11 @@ object ModelConverter {
 	implicit private def openOption(action: Option[Either[String, Action]]): Either[String, Action] = {
 		action.getOrElse(Left(emptyConfigError))
 	}
+}
+
+object ModelConverter {
+	val emptyConfigError = "Config must not be null"
+	val wrongConfigError = "Wrong config for action"
+
+	def apply(): ModelConverter = new ModelConverter()
 }

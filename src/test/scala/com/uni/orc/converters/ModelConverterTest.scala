@@ -5,7 +5,6 @@ import com.uni.orc.models.parsed.Action.{CLICommand, DockerCommand}
 import com.uni.orc.models.raw.{RawAction, RawTask}
 import com.uni.orc.models.types.{Action, Hook}
 import org.scalatest.funsuite.AsyncFunSuite
-import cats.implicits._
 
 class ModelConverterTest extends AsyncFunSuite {
 	val instruction = "instruction"
@@ -13,7 +12,7 @@ class ModelConverterTest extends AsyncFunSuite {
 	test("CLI Command") {
 		val rawAction = RawAction(Action.CLI_COMMAND, instruction, None)
 
-		ModelConverter.convertAction(rawAction) match {
+		ModelConverter().convertAction(rawAction) match {
 			case Left(_) => fail()
 			case Right(action) =>
 				assert(action.isInstanceOf[CLICommand])
@@ -24,7 +23,7 @@ class ModelConverterTest extends AsyncFunSuite {
 	test("Docker Command") {
 		val rawAction = RawAction(Action.DOCKER_COMMAND, instruction, Some(DockerCommandConfig("", "")))
 
-		ModelConverter.convertAction(rawAction) match {
+		ModelConverter().convertAction(rawAction) match {
 			case Left(_) => fail
 			case Right(action) =>
 				assert(action.isInstanceOf[DockerCommand])
@@ -35,7 +34,7 @@ class ModelConverterTest extends AsyncFunSuite {
 	test("Docker Command - Config missing") {
 		val rawAction = RawAction(Action.DOCKER_COMMAND, instruction, None)
 
-		ModelConverter.convertAction(rawAction) match {
+		ModelConverter().convertAction(rawAction) match {
 			case Left(_) => succeed
 			case Right(_) => fail
 		}
@@ -45,8 +44,8 @@ class ModelConverterTest extends AsyncFunSuite {
 		val rawAction = RawAction(Action.HTTP_REQUEST, instruction, None)
 		val rawTask = RawTask(Hook.INSTALL, rawAction)
 
-		val eitherResultTask = ModelConverter.convertTask(rawTask)
-		val eitherResultAction = ModelConverter.convertAction(rawAction)
+		val eitherResultTask = ModelConverter().convertTask(rawTask)
+		val eitherResultAction = ModelConverter().convertAction(rawAction)
 
 		eitherResultTask match {
 			case Right(_) => fail

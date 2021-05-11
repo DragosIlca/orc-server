@@ -2,7 +2,7 @@ package com.uni.orc.json
 
 import ai.x.play.json.Jsonx
 import com.uni.orc.models.Config._
-import com.uni.orc.models.raw.{RawAction, RawPlugin, RawTask}
+import com.uni.orc.models.raw.{PluginsConfig, RawAction, RawPlugin, RawTask}
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
 
@@ -19,5 +19,6 @@ object JsonImplicits {
 
 	implicit val commandFmt: Reads[RawTask] = Json.reads[RawTask]
 	implicit val pluginFmt: Reads[RawPlugin] = Json.reads[RawPlugin]
+	implicit val pluginsConfigFmt: Reads[PluginsConfig] = Json.reads[PluginsConfig]
 }
 
