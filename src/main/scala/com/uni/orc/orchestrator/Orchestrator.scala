@@ -18,7 +18,7 @@ class Orchestrator {
 		for {
 			parsedPlugins <- config.plugins.map(ModelConverter().convertPlugin).sequence
 			result = parsedPlugins.map(PluginRunner.run)
-		} yield result
+		} yield result.sequence.map(_.sequence).map(_.map(_ => ()))
 	}
 }
 
