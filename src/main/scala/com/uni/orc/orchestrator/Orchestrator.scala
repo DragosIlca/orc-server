@@ -1,20 +1,18 @@
 package com.uni.orc.orchestrator
 
-import java.util.concurrent.Executors
-
+import cats.effect.IO
 import cats.implicits._
 import com.uni.orc.converters.ModelConverter
 import com.uni.orc.input.ConfigReader
 import com.uni.orc.runners.plugin.PluginRunner
 import org.apache.log4j.Logger
 
-import scala.concurrent.{ExecutionContext, Future}
 import scala.sys.process.ProcessLogger
 
 class Orchestrator {
 	import Orchestrator._
 
-	def run(): Future[Either[String, Unit]] = {
+	def run(): IO[Either[String, Unit]] = {
 		val config = ConfigReader.readConfig()
 
 		(for {
@@ -22,7 +20,7 @@ class Orchestrator {
 			result = parsedPlugins.map(PluginRunner.run).sequence
 		} yield result) match {
 			case Left(e) =>
-				Future.successful(Left(e))
+				IO(Left(e))
 			case Right(v) => v
 				.map(_.sequence)
 				.map(_.map(_ => ()))
@@ -33,7 +31,6 @@ class Orchestrator {
 object Orchestrator {
 	val logger = Logger.getLogger(Orchestrator.getClass)
 
-	implicit val executionContext: ExecutionContext = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(50))
 	implicit val processLogger: ProcessLogger = new ProcessLogger {
 		override def out(s: => String): Unit = {
 			logger.info(s)

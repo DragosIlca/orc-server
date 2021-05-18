@@ -7,7 +7,13 @@ import scala.io.Source
 import com.uni.orc.json.JsonImplicits._
 
 object ConfigReader {
-	lazy val jsonString : String = Source.fromResource("config.json").mkString
+	val jsonFileName: String = "config.json"
+	lazy val projectRoot: String = new java.io.File(".").getCanonicalPath
+	lazy val jsonFile: Source = Source.fromFile(s"$projectRoot/$jsonFileName")
 
-	def readConfig(): PluginsConfig = Json.parse(jsonString).as[PluginsConfig]
+	def readConfig(): PluginsConfig = {
+		val result = Json.parse(jsonFile.mkString).as[PluginsConfig]
+		jsonFile.close()
+		result
+	}
 }
