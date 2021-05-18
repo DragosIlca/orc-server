@@ -5,9 +5,10 @@ import com.uni.orc.runners.action.ActionRunner
 import cats.implicits._
 
 import scala.concurrent.{ExecutionContext, Future}
+import scala.sys.process.ProcessLogger
 
 object PluginRunner {
-	def run(plugin: Plugin)(implicit ec: ExecutionContext): Future[Either[String, Unit]] =
+	def run(plugin: Plugin)(implicit ec: ExecutionContext, processLogger: ProcessLogger): Future[Either[String, Unit]] =
 		plugin.lifecycle
 		      .map(_.action)
 		      .map(ActionRunner.run)

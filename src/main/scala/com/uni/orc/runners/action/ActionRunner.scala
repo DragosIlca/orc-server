@@ -2,14 +2,17 @@ package com.uni.orc.runners.action
 
 import com.uni.orc.models.parsed.Action._
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
+import scala.sys.process.ProcessLogger
 
 trait ActionRunner[T <: Action] {
-  def run(action: T): Future[Either[String, Unit]]
+  def run(action: T)(implicit ec: ExecutionContext, processLogger: ProcessLogger): Future[Either[String, Unit]]
 }
 
 object ActionRunner {
-  def run(action: Action): Future[Either[String, Unit]] = action match {
+  val consoleErrorMessage = "An error has occurred when trying to execute a command, check debug.log for details"
+
+  def run(action: Action)(implicit ec: ExecutionContext, processLogger: ProcessLogger): Future[Either[String, Unit]] = action match {
     case _: CLICommand => CLICommandRunner().run(action.asInstanceOf[CLICommand])
     case _: DockerCommand => DockerCommandRunner().run(action.asInstanceOf[DockerCommand])
     case _: HttpRequest => HttpRequestRunner().run(action.asInstanceOf[HttpRequest])
