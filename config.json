@@ -9,7 +9,7 @@
         {
           "hook": "run",
           "action": {
-            "actionType": "command",
+            "actionType": "cli",
             "instruction": "java -jar ./tools/iglog.jar ../kafka"
           }
         }
