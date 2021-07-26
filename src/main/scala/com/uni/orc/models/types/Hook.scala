@@ -1,8 +1,8 @@
 package com.uni.orc.models.types
 
 object Hook {
-  val INSTALL: HookType = "install"
-  val REMOVE: HookType = "remove"
+  val INSTALL: HookType = "start"
+  val REMOVE: HookType = "stop"
 
   type HookType = String
 }

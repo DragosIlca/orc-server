@@ -5,15 +5,16 @@
       "name": "Inspector Git",
       "description": "Description",
       "version": "0.0.1",
+      "installation": [],
       "lifecycle": [
         {
-          "hook": "run",
+          "hookType": "start",
           "action": {
-            "actionType": "cli",
             "instruction": "java -jar ./tools/iglog.jar ../kafka"
           }
         }
-      ]
+      ],
+      "commands": []
     }
   ]
 }

@@ -1,3 +1,5 @@
 package com.uni.orc.models.raw
 
-case class PluginsConfig(plugins: List[RawPlugin])
+import com.uni.orc.models.parsed.MarketPlugin
+
+case class PluginsConfig(plugins: List[MarketPlugin])

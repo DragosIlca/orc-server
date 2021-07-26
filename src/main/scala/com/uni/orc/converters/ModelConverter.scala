@@ -2,20 +2,30 @@ package com.uni.orc.converters
 
 import com.uni.orc.models.Config.{Config, DockerCommandConfig, HttpRequestConfig}
 import com.uni.orc.models.parsed.Action.{Action, CLICommand, DockerCommand, HttpRequest}
-import com.uni.orc.models.parsed.{Plugin, Task}
-import com.uni.orc.models.raw.{RawAction, RawPlugin, RawTask}
+import com.uni.orc.models.parsed.{MarketPlugin, ProjectPlugin, Task}
+import com.uni.orc.models.raw.{RawAction, RawMarketPlugin, RawTask}
 import com.uni.orc.models.types.Action
 import cats.implicits._
 
 class ModelConverter {
 	import ModelConverter._
 
-	def convertPlugin(rawPlugin: RawPlugin): Either[String, Plugin] = {
+	def convertPlugin(rawPlugin: RawMarketPlugin): Either[String, MarketPlugin] = {
 		rawPlugin.lifecycle
 		         .map(convertTask)
 		         .sequence
-		         .map(Plugin(rawPlugin.id, rawPlugin.name, rawPlugin.description, rawPlugin.version, _))
+		         .map(MarketPlugin(rawPlugin.id, rawPlugin.name, rawPlugin.description, rawPlugin.version, rawPlugin.installation, _, rawPlugin.commands))
 	}
+
+	def getProjectPlugin(marketPlugin: MarketPlugin): ProjectPlugin =
+		ProjectPlugin(
+			marketPlugin.id,
+			marketPlugin.name,
+			marketPlugin.description,
+			marketPlugin.version,
+			marketPlugin.lifecycle,
+			marketPlugin.execution
+		)
 
 	def convertTask(rawTask: RawTask): Either[String, Task] = {
 		convertAction(rawTask.action).map(Task(rawTask.hook, _))

@@ -1,6 +1,6 @@
 package com.uni.orc.input
 
-import com.uni.orc.models.raw.{PluginsConfig, RawPlugin}
+import com.uni.orc.models.raw.{PluginsConfig, RawMarketPlugin}
 import play.api.libs.json.Json
 
 import scala.io.Source
