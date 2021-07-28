@@ -1,10 +1,10 @@
 package com.uni.orc.input
 
-import com.uni.orc.models.raw.{PluginsConfig, RawMarketPlugin}
+import com.uni.orc.json.JsonImplicits._
+import com.uni.orc.models.PluginsConfig
 import play.api.libs.json.Json
 
 import scala.io.Source
-import com.uni.orc.json.JsonImplicits._
 
 object ConfigReader {
 	val jsonFileName: String = "config.json"

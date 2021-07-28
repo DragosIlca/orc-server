@@ -2,7 +2,7 @@ package com.uni.orc.runners.plugin
 
 import cats.effect.IO
 import cats.implicits._
-import com.uni.orc.models.parsed.MarketPlugin
+import com.uni.orc.models.MarketPlugin
 import com.uni.orc.runners.action.ActionRunner
 
 import scala.sys.process.ProcessLogger

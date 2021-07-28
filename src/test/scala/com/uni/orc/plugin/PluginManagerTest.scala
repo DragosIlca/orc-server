@@ -1,7 +1,10 @@
 package com.uni.orc.plugin
 
+import com.uni.orc.json.JsonImplicits._
+import com.uni.orc.models.MarketPlugin
 import org.apache.log4j.Logger
 import org.scalatest.funsuite.AsyncFunSuite
+import play.api.libs.json.Json
 
 import scala.sys.process.ProcessLogger
 
@@ -49,7 +52,6 @@ class PluginManagerTest extends AsyncFunSuite {
 			              |        {
 			              |          "hook": "run",
 			              |          "action": {
-			              |            "actionType": "cli",
 			              |            "instruction": "java -jar ./tools/iglog.jar ../kafka"
 			              |          }
 			              |        }
@@ -58,7 +60,7 @@ class PluginManagerTest extends AsyncFunSuite {
 			              |  ]
 			              |}""".stripMargin
 
-		PluginManager.addPlugin(name, content) match {
+		PluginManager.addPlugin(name, Json.parse(content).as[MarketPlugin]) match {
 			case Left(err) =>
 				fail(err)
 			case Right(_) =>

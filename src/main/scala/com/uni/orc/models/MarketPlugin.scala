@@ -1,6 +1,4 @@
-package com.uni.orc.models.parsed
-
-import com.uni.orc.models.common.Command
+package com.uni.orc.models
 
 case class MarketPlugin(
 	id          : String,

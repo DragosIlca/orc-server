@@ -1,7 +1,7 @@
 package com.uni.orc.runners.action
 
 import cats.effect.IO
-import com.uni.orc.models.parsed.Action.CLICommand
+import com.uni.orc.models.Action.CLICommand
 
 import scala.sys.process.{Process, ProcessLogger}
 

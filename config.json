@@ -12,9 +12,19 @@
           "action": {
             "instruction": "java -jar ./tools/iglog.jar ../kafka"
           }
+        },
+        {
+          "hookType": "start",
+          "action": {
+            "instruction": "java -jar ./tools/iglog.jar ../kafka",
+            "config" : {
+              "image": "String",
+              "name": "String"
+            }
+          }
         }
       ],
-      "commands": []
+      "execution": []
     }
   ]
 }

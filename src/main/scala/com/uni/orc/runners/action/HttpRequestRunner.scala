@@ -1,7 +1,7 @@
 package com.uni.orc.runners.action
 
 import cats.effect.IO
-import com.uni.orc.models.parsed.Action.HttpRequest
+import com.uni.orc.models.Action.HttpRequest
 
 import scala.sys.process.ProcessLogger
 

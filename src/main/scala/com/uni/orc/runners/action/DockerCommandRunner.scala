@@ -1,7 +1,7 @@
 package com.uni.orc.runners.action
 
 import cats.effect.IO
-import com.uni.orc.models.parsed.Action.DockerCommand
+import com.uni.orc.models.Action.DockerCommand
 
 import scala.sys.process.ProcessLogger
 

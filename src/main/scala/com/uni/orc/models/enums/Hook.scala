@@ -1,4 +1,4 @@
-package com.uni.orc.models.types
+package com.uni.orc.models.enums
 
 object Hook {
   val INSTALL: HookType = "start"

@@ -1,4 +1,4 @@
-package com.uni.orc.models.types
+package com.uni.orc.models.enums
 
 object HttpRequest {
   val GET: HttpRequestType = "GET"
