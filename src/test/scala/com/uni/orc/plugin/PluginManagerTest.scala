@@ -42,23 +42,21 @@ class PluginManagerTest extends AsyncFunSuite {
 	test("Test add plugin") {
 		val name = "idkPlugin"
 		val content = """{
-			              |  "plugins": [
+			              |  "id": "inspector-git",
+			              |  "name": "Inspector Git",
+			              |  "description": "Description",
+			              |  "version": "0.0.1",
+			              |  "installation": [],
+			              |  "lifecycle": [
 			              |    {
-			              |      "id": "inspector-git",
-			              |      "name": "Inspector Git",
-			              |      "description": "Description",
-			              |      "version": "0.0.1",
-			              |      "lifecycle": [
-			              |        {
-			              |          "hook": "run",
-			              |          "action": {
-			              |            "instruction": "java -jar ./tools/iglog.jar ../kafka"
-			              |          }
-			              |        }
-			              |      ]
+			              |      "hookType": "start",
+			              |      "action": {
+			              |        "instruction": "java -jar ./tools/iglog.jar ../kafka"
+			              |      }
 			              |    }
-			              |  ]
-			              |}""".stripMargin
+			              |  ],
+			              |  "execution": []
+										|}""".stripMargin
 
 		PluginManager.addPlugin(name, Json.parse(content).as[MarketPlugin]) match {
 			case Left(err) =>

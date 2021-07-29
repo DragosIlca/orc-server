@@ -61,7 +61,7 @@ object PluginManager {
 			Right(directory.deleteRecursively())
 		}
 		else {
-			Left(pluginAlreadyExists)
+			Left(pluginMissing)
 		}
 	}
 
@@ -90,7 +90,7 @@ object PluginManager {
 			case _ =>
 				val source = Source.fromFile(pluginPath)
 				createDirectories(projectName, pluginName)
-				writeToFile(projectPluginsPath, Json.toJson(Json.parse(source.mkString).as[PluginsConfig]).toString)
+				writeToFile(projectPluginsPath, Json.toJson(Json.parse(source.mkString).as[MarketPlugin]).toString)
 				Right()
 		}
 	}
