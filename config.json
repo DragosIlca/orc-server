@@ -5,7 +5,9 @@
       "name": "Inspector Git",
       "description": "Description",
       "version": "0.0.1",
-      "installation": [],
+      "installation": [
+        "git clone https://github.com/apache/kafka.git"
+      ],
       "lifecycle": [
         {
           "hookType": "start",

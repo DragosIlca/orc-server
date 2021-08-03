@@ -1,9 +1,8 @@
 package com.uni.orc.plugin
 import java.io.{File, FileWriter}
-import java.nio.file._
 import play.api.libs.json.Json
 import com.uni.orc.json.JsonImplicits._
-import com.uni.orc.models.{MarketPlugin, PluginsConfig}
+import com.uni.orc.models.{MarketPlugin}
 
 import scala.io.Source
 import scala.reflect.io.Directory
@@ -18,6 +17,7 @@ object PluginManager {
 	val projectMissing: String = "Project missing"
 	val pluginInfoName: String = "plugin-info.json"
 	val cloneError: String = "Error cloning git repository"
+	def instructionError(instruction: String): String = s"Error executing instruction $instruction"
 
 	def createProject(projectName: String, url: String, repoName: String)(implicit processLogger: ProcessLogger): Either[String, Unit] =
 		Process(s"cmd /C git clone $url ${projectName.projectPath}/$repoName").run(processLogger).exitValue() match {
@@ -76,7 +76,7 @@ object PluginManager {
 		}
 	}
 
-	def installPlugin(projectName: String, pluginName: String): Either[String, Unit] = {
+	def installPlugin(projectName: String, pluginName: String)(implicit processLogger: ProcessLogger): Either[String, Unit] = {
 		val pluginPath = pluginName.pluginFilePath
 		val projectPath = projectName.projectPath
 		val projectPluginsPath = s"$projectPath/plugins/$pluginName/$pluginInfoName"
@@ -89,9 +89,11 @@ object PluginManager {
 			case (_, false) => Left(pluginMissing)
 			case _ =>
 				val source = Source.fromFile(pluginPath)
+				val plugin = Json.parse(source.mkString).as[MarketPlugin]
+
 				createDirectories(projectName, pluginName)
-				writeToFile(projectPluginsPath, Json.toJson(Json.parse(source.mkString).as[MarketPlugin]).toString)
-				Right()
+				writeToFile(projectPluginsPath, Json.toJson(plugin).toString)
+				runInstallationTasks(plugin.installation)
 		}
 	}
 
@@ -110,14 +112,29 @@ object PluginManager {
 		}
 	}
 
+	private def runInstallationTasks(instructions: List[String])(implicit processLogger: ProcessLogger): Either[String, Unit] = {
+		instructions
+			.map(instruction => (instruction, Process(s"cmd /C $instruction")
+			.run(processLogger).exitValue()) match {
+				case (_, 0) => Right(())
+				case (instr, _) => Left(instructionError(instr))
+			})
+			.partitionMap(identity)
+			._1
+			.headOption
+			.toLeft()
+	}
+
 	private def createDirectories(projectName: String, pluginName: String): Unit = {
 		val projectPluginsPath = projectName.projectPluginsPath
+		val projectPluginResourcesPath = s"$projectPluginsPath/$pluginName/resources/"
 
+		new File(projectPluginResourcesPath).mkdir()
 		new File(projectPluginsPath).mkdir()
 		new File(s"$projectPluginsPath/$pluginName").mkdir()
 	}
 
-	private def writeToFile(filePath: String, content: String) = {
+	private def writeToFile(filePath: String, content: String): Unit = {
 		val writer = new FileWriter(filePath)
 		writer.write(content)
 		writer.close()
@@ -139,6 +156,7 @@ object PluginManager {
 		def projectPath = s"$projectsPath/$name"
 		def projectPluginsPath = s"$projectPath/plugins"
 		def pluginPath = s"$pluginsPath/$name"
+		def pluginResourcesPath = s"$projectPluginsPath/$name/resources"
 		def pluginFilePath = s"$pluginsPath/$name/$pluginInfoName"
 	}
 }
