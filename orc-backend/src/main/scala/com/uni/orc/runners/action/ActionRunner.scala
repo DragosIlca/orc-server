@@ -2,8 +2,6 @@ package com.uni.orc.runners.action
 
 import cats.effect.IO
 import com.uni.orc.models.Action.{Action, CLICommand, DockerCommand, HttpRequest}
-import com.uni.orc.models.Action._
-import com.uni.orc.models.Action.{Action, CLICommand, DockerCommand, HttpRequest}
 
 import scala.sys.process.ProcessLogger
 
