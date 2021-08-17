@@ -4,3 +4,5 @@ out/
 plugins/
 *.iml
 *.log
+null/
+.bsp/
