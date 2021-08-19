@@ -1,6 +1,6 @@
 package com.uni.orc.orchestrator
 
-import cats.effect.IO
+import cats.effect.Sync
 import cats.implicits._
 import com.uni.orc.input.ConfigReader
 import com.uni.orc.runners.plugin.PluginRunner
@@ -11,10 +11,10 @@ import scala.sys.process.ProcessLogger
 class Orchestrator {
 	import Orchestrator._
 
-	def run(): IO[Either[String, Unit]] = {
+	def run[F[_]: Sync](): F[Either[String, Unit]] = {
 		val pluginsConfig = ConfigReader.readConfig()
 
-		pluginsConfig.plugins.map(PluginRunner.run).sequence.map(_.sequence.map(_ => ()))
+		pluginsConfig.plugins.map(PluginRunner.run[F]).sequence.map(_.sequence.map(_ => ()))
 	}
 }
 
